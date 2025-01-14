@@ -3,7 +3,15 @@ import { CheckFeature } from "@/components/CheckFeature"
 import { Appbar } from "@/components/Appbar"
 import { Input } from "../../components/Input"
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
+import { useState } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+import { useRouter } from "next/navigation";
 export default function () {
+    const[email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const router = useRouter();
   return ( 
     <div>
         <Appbar/>
@@ -24,12 +32,18 @@ export default function () {
         </div>
     <div className="flex-1">
         <div className="pb-8">
-        <Input label="Email" onChange={() => {}} type="text" placeholder="Your Email"/>
+        <Input label="Email" onChange={(e) => {setEmail(e.target.value)}} type="text" placeholder="Your Email"/>
         </div>
         <div className="pb-8">
-        <Input label="Password" onChange={() => {}} type="password" placeholder="Your Password"/>
+        <Input label="Password" onChange={(e) => {setPassword(e.target.value)}} type="password" placeholder="Your Password"/>
         </div>
-    <PrimaryButton onClick={() => {}} size="big">Login</PrimaryButton>
+    <PrimaryButton onClick={async() => {
+        const res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+            username : email,
+            password,
+        });
+        router.push("/dashboard")
+    }} size="big">Login</PrimaryButton>
     </div>
     </div>
     </div>

@@ -9,6 +9,7 @@ import { JWT_PASSWORD } from "../config";
 const router = Router();
 
 router.post("/signup", async (req, res) => {
+    console.log("Hello from singup")
     const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
 
